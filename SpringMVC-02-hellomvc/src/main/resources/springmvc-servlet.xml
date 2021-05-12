@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- web.xml 配置
+        url ->  逻辑地址 ->  class
+        / ->  springmvc ->  org.springframework.web.servlet.DispatcherServlet
+
+        在这之后，DispatcherServlet 会进行url和控制器的映射，如例子所示：
+            http://localhost:8080/hello/handShake 分为三个部分
+            http://localhost:8080: ip和端口找到服务器
+            / : org.springframework.web.servlet.DispatcherServlet
+            /hello/handShake : DispatcherServlet对其进行地址映射找到对应的 Controller
+
+    -->
+
+    <!-- %第 2 步% HandlerMapping 映射器 -->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+
+    <!-- %第 3 步% HandlerAdapter 控制器适配器 -->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
+    <!-- %第 4 步% Handler 控制器 -->
+    <bean id="/hello" class="com.alvin.controller.HelloController"/>
+
+    <!-- %第 5 步% viewResolver 视图解析器
+        1. 获取 ModelAndView 的数据
+        2. 解析 ModelAndView 的名字
+        3. 拼接视图名字 /WEB-INF/jsp/hello.jsp
+        4. 数据渲染到视图上
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>
